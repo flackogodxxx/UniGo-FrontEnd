@@ -14,7 +14,8 @@ import {
   FaRoute,
   FaUniversity,
   FaMapPin,
-  FaArrowRight
+  FaArrowRight,
+  FaUsers
 } from 'react-icons/fa';
 import { HiCurrencyDollar } from 'react-icons/hi';
 
@@ -23,7 +24,7 @@ export default function Home() {
   const router = useRouter();
   const [fromLocation, setFromLocation] = useState('');
   const [toLocation, setToLocation] = useState('');
-  
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"]
@@ -53,22 +54,91 @@ export default function Home() {
 
   return (
     <main className="min-h-screen" ref={containerRef}>
-      {/* Hero Section with Map Background */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 px-4">
+      {/* Hero Section */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden pb-0">
         <motion.div
           className="absolute inset-0 hero-pattern"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
         />
-        <div 
-          className="absolute inset-0 opacity-10 bg-cover bg-center"
-          style={{
-            backgroundImage: `url("https://maps.googleapis.com/maps/api/staticmap?center=Ourinhos,SP&zoom=13&size=1200x800&maptype=roadmap&style=feature:road|color:0x1E3A8A&style=feature:landscape|color:0xF8FAFC&key=YOUR_API_KEY")`,
-            backgroundBlendMode: "overlay"
-          }}
-        />
-        <div className="container mx-auto z-10">
+        <div className="absolute inset-0 wave-pattern opacity-10" />
+
+        {/* Carros animados menos intrusivos e mais sutis */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <motion.div
+            className="absolute top-1/4 left-0 w-6 h-6 text-blue-600 opacity-50"
+            initial={{ x: -50 }}
+            animate={{ x: "calc(100vw + 50px)" }}
+            transition={{
+              duration: 25,
+              repeat: Infinity,
+              ease: "linear",
+              delay: 1
+            }}
+          >
+            <FaCar className="w-full h-full" />
+          </motion.div>
+
+          <motion.div
+            className="absolute top-1/3 left-0 w-7 h-7 text-blue-800 opacity-40"
+            initial={{ x: -80 }}
+            animate={{ x: "calc(100vw + 80px)" }}
+            transition={{
+              duration: 30,
+              repeat: Infinity,
+              ease: "linear",
+              delay: 3
+            }}
+          >
+            <FaCar className="w-full h-full" />
+          </motion.div>
+
+          <motion.div
+            className="absolute top-2/3 right-0 w-6 h-6 text-blue-700 opacity-50"
+            initial={{ x: "calc(100vw + 50px)" }}
+            animate={{ x: -50 }}
+            transition={{
+              duration: 28,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+          >
+            <FaCar className="w-full h-full transform rotate-180" />
+          </motion.div>
+        </div>
+
+        {/* Container com largura máxima e padding consistente */}
+        <div className="container mx-auto px-6 z-10 max-w-6xl">
+          {/* Header fixo no topo */}
+          <motion.header
+            className="fixed top-0 left-0 w-full z-50 glass-effect py-4"
+            initial={{ y: -100 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <div className="container mx-auto px-6 max-w-6xl flex items-center justify-between">
+              <div className="flex items-center">
+                <div className="w-10 h-10 bg-blue-900 rounded-lg flex items-center justify-center mr-2">
+                  <FaCar className="text-white text-lg" />
+                </div>
+                <span className="font-bold text-xl text-blue-900">UniGo</span>
+              </div>
+              <nav className="hidden md:flex items-center space-x-8">
+                <a href="#" className="nav-link">Início</a>
+                <a href="#beneficios" className="nav-link">Benefícios</a>
+                <a href="#como-funciona" className="nav-link">Como Funciona</a>
+                <a href="#" className="nav-link">Entrar</a>
+                <a href="#" className="btn-primary py-2 px-4">Cadastrar</a>
+              </nav>
+              <button className="md:hidden text-blue-900">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
+          </motion.header>
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -81,101 +151,100 @@ export default function Home() {
               animate={{ scale: 1 }}
               transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
             >
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-900 to-blue-700 rounded-2xl flex items-center justify-center shadow-xl shadow-blue-900/20">
+              <motion.div
+                className="w-20 h-20 bg-gradient-to-br from-blue-900 to-blue-700 rounded-2xl flex items-center justify-center shadow-xl shadow-blue-900/20"
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.8 }}
+              >
                 <FaCar className="text-4xl text-white" />
-              </div>
+              </motion.div>
             </motion.div>
             <motion.h1
-              className="text-4xl md:text-7xl font-bold mb-6"
+              className="text-5xl md:text-7xl font-bold mb-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              <span className="gradient-text animate-pulse-slow">UniGo</span>
+              <motion.span
+                className="gradient-text"
+                animate={{
+                  scale: [1, 1.05, 1],
+                  textShadow: [
+                    "0 0 0px rgba(37, 99, 235, 0)",
+                    "0 0 20px rgba(37, 99, 235, 0.5)",
+                    "0 0 0px rgba(37, 99, 235, 0)"
+                  ]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
+              >
+                UniGo
+              </motion.span>
               <br />
-              <span className="text-3xl md:text-5xl">Sua Carona Universitária</span>
+              <span className="text-4xl md:text-6xl">Sua Carona Universitária</span>
             </motion.h1>
             <motion.p
-              className="text-lg md:text-2xl text-slate-600 mb-8 max-w-3xl mx-auto"
+              className="text-xl md:text-2xl text-slate-600 mb-8 max-w-3xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
               Conecte-se com outros estudantes da UniFio e compartilhe viagens de forma segura e econômica
             </motion.p>
-            
-            {/* Ride Search Box */}
-            <motion.div 
-              className="bg-white rounded-xl shadow-xl p-6 max-w-2xl mx-auto mb-8"
+
+            {/* Card de busca de carona */}
+            <motion.div
+              className="bg-white rounded-xl shadow-xl p-6 mb-8 max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
             >
               <div className="flex flex-col space-y-4">
-                <div className="flex items-center space-x-4">
-                  <div className="flex-shrink-0">
-                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-                      <FaMapPin className="text-blue-900" />
-                    </div>
+                <div className="flex items-center border border-slate-200 rounded-lg p-3 bg-slate-50">
+                  <div className="text-blue-900 mr-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
                   </div>
-                  <input 
-                    type="text" 
-                    className="w-full p-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-900"
+                  <input
+                    type="text"
                     placeholder="De onde você está saindo?"
-                    value={fromLocation}
-                    onChange={(e) => setFromLocation(e.target.value)}
+                    className="flex-grow bg-transparent focus:outline-none text-slate-700"
                   />
                 </div>
-                
-                <div className="flex items-center space-x-3">
-                  <div className="flex-shrink-0">
-                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-                      <FaUniversity className="text-blue-900" />
-                    </div>
+                <div className="flex items-center border border-slate-200 rounded-lg p-3 bg-slate-50">
+                  <div className="text-blue-900 mr-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
                   </div>
-                  <input 
-                    type="text" 
-                    className="w-full p-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-900"
+                  <input
+                    type="text"
                     placeholder="Para onde você vai?"
-                    value={toLocation}
-                    onChange={(e) => setToLocation(e.target.value)}
+                    className="flex-grow bg-transparent focus:outline-none text-slate-700"
                   />
                 </div>
-                
-                <motion.button
-                  className="btn-primary mt-2"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => router.push('/register')}
-                >
-                  <FaRoute className="text-xl" />
-                  <span>Encontrar Carona</span>
-                </motion.button>
+                <button className="btn-primary w-full">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  Encontrar Carona
+                </button>
               </div>
             </motion.div>
-            
+
             <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+              className="flex gap-4 justify-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1 }}
             >
-              <motion.button
-                className="btn-primary w-full sm:w-auto"
-                onClick={() => router.push('/register')}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Começar Agora
-              </motion.button>
-              <motion.button
-                className="btn-secondary w-full sm:w-auto"
-                onClick={() => document.getElementById('beneficios')?.scrollIntoView({ behavior: 'smooth' })}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Saiba Mais
-              </motion.button>
+              <button className="btn-primary">Começar Agora</button>
+              <button className="btn-secondary">Saiba Mais</button>
             </motion.div>
           </motion.div>
         </div>
@@ -183,30 +252,26 @@ export default function Home() {
 
       {/* Benefícios Section */}
       <section id="beneficios" className="py-20 bg-white relative overflow-hidden">
-        <motion.div 
-          className="absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627,0.063 L59.95,5.386 L53.932,11.404 L58.877,16.349 L53.932,21.294 L48.986,16.349 L42.968,22.367 L48.986,28.385 L44.041,33.33 L39.096,28.385 L33.078,34.403 L39.096,40.421 L34.15,45.366 L29.205,40.421 L23.187,46.439 L29.205,52.457 L24.26,57.402 L19.315,52.457 L13.297,58.475 L19.315,64.493 L14.37,69.438 L9.425,64.493 L3.407,70.511 L9.425,76.529 L4.48,81.474 L0,76.994 L0,0 L76.994,0 L72.514,4.48 L67.569,0 L61.551,6.018 L67.569,12.036 L62.624,16.981 L57.679,12.036 L51.661,18.054 L57.679,24.072 L52.734,29.017 L47.789,24.072 L41.771,30.09 L47.789,36.108 L42.844,41.053 L37.899,36.108 L31.881,42.126 L37.899,48.144 L32.954,53.089 L28.009,48.144 L21.991,54.162 L28.009,60.18 L23.064,65.125 L18.119,60.18 L12.101,66.198 L18.119,72.216 L13.174,77.161 L8.229,72.216 L2.211,78.234 L8.229,84.252 L3.284,89.197 L0,85.913 L0,8.919 L8.919,0 L85.913,0 L76.994,8.919 L0,8.919' fill='%231E3A8A' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E")`,
-            backgroundSize: "cover"
-          }}
-        />
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-6 max-w-6xl">
           <motion.h2
-            className="text-3xl md:text-4xl font-bold text-center mb-16"
+            className="text-3xl md:text-4xl font-bold text-center mb-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            Por que escolher o <span className="gradient-text">UniGo</span>?
+            Por que escolher o UniGo?
           </motion.h2>
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
+          <motion.p
+            className="text-slate-600 text-center max-w-2xl mx-auto mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
           >
+            Descubra como podemos facilitar sua rotina acadêmica com caronas seguras e econômicas
+          </motion.p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
                 title: "Economia Inteligente",
@@ -229,131 +294,47 @@ export default function Home() {
             ].map((beneficio, index) => (
               <motion.div
                 key={index}
-                variants={itemVariants}
-                className="feature-card"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.2 }}
+                viewport={{ once: true }}
+                className="feature-card card-hover"
               >
                 <div className="relative z-10">
-                  <motion.div
-                    className="feature-icon mb-6"
-                    whileHover={{ scale: 1.1, rotate: 360 }}
-                    transition={{ duration: 0.8 }}
-                  >
+                  <div className="feature-icon mb-6">
                     {beneficio.icon}
-                  </motion.div>
+                  </div>
                   <h3 className="text-xl font-semibold mb-2">{beneficio.title}</h3>
                   <p className="text-slate-600">{beneficio.description}</p>
                 </div>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Como Funciona Section with App-like UI */}
+      {/* Como Funciona Section */}
       <section id="como-funciona" className="py-20 bg-slate-50 relative overflow-hidden">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-6 max-w-6xl">
           <motion.h2
-            className="text-3xl md:text-4xl font-bold text-center mb-16"
+            className="text-3xl md:text-4xl font-bold text-center mb-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            Como <span className="gradient-text">Funciona</span>
+            Como Funciona
           </motion.h2>
-          
-          <div className="flex flex-col md:flex-row gap-8 items-center justify-center mb-16">
-            <motion.div 
-              className="md:w-1/2 order-2 md:order-1"
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-2xl font-bold mb-4">Encontre caronas <span className="text-blue-900">em segundos</span></h3>
-              <p className="text-lg text-slate-600 mb-6">
-                Basta inserir seu ponto de partida e destino, e o UniGo encontrará motoristas universitários disponíveis para sua rota.
-              </p>
-              
-              <div className="space-y-4">
-                {[
-                  { text: "Busca inteligente por rotas", icon: <FaRoute /> },
-                  { text: "Motoristas verificados da UniFio", icon: <FaUserGraduate /> },
-                  { text: "Compartilhamento de custos", icon: <HiCurrencyDollar /> }
-                ].map((item, index) => (
-                  <motion.div 
-                    key={index}
-                    className="flex items-center gap-3"
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.2 }}
-                    viewport={{ once: true }}
-                  >
-                    <div className="w-8 h-8 bg-blue-900 rounded-full flex items-center justify-center text-white">
-                      {item.icon}
-                    </div>
-                    <p className="font-medium">{item.text}</p>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-            
-            <motion.div 
-              className="md:w-1/2 order-1 md:order-2"
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <div className="bg-white rounded-xl shadow-xl p-4 border border-slate-100 max-w-md mx-auto">
-                <div className="bg-slate-50 rounded-lg p-4 mb-4">
-                  <div className="flex items-center space-x-3 mb-4">
-                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-                      <FaMapPin className="text-blue-900" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="text-sm text-slate-500">Origem</div>
-                      <div className="font-medium">Residencial Universitário</div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center justify-center my-2">
-                    <div className="w-0.5 h-6 bg-blue-200"></div>
-                  </div>
-                  
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-                      <FaUniversity className="text-blue-900" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="text-sm text-slate-500">Destino</div>
-                      <div className="font-medium">Campus UniFio</div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="space-y-3">
-                  {[1, 2, 3].map((item, index) => (
-                    <motion.div 
-                      key={index}
-                      className="flex items-center p-3 border border-slate-100 rounded-lg hover:bg-slate-50 cursor-pointer"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <div className="w-12 h-12 rounded-full bg-slate-200 mr-3"></div>
-                      <div className="flex-1">
-                        <div className="font-medium">Motorista {item}</div>
-                        <div className="text-xs text-slate-500">Saída em 15 min • R$ 5,00</div>
-                      </div>
-                      <FaArrowRight className="text-blue-900" />
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mt-16">
+          <motion.p
+            className="text-slate-600 text-center max-w-2xl mx-auto mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            Em apenas 4 passos simples você já estará compartilhando caronas com outros alunos
+          </motion.p>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
               {
                 step: "1",
@@ -382,12 +363,15 @@ export default function Home() {
             ].map((item, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.2 }}
                 viewport={{ once: true }}
-                className="text-center"
+                className="bg-white p-6 rounded-xl shadow-md text-center relative"
               >
+                <div className="absolute -top-4 -right-4 w-8 h-8 bg-blue-900 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                  {index + 1}
+                </div>
                 <motion.div
                   className="w-16 h-16 bg-gradient-to-br from-blue-900 to-blue-700 text-white rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-blue-900/20"
                   whileHover={{ scale: 1.1, rotate: 360 }}
@@ -400,6 +384,9 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
+          <div className="mt-12 flex justify-center">
+            <div className="h-1 bg-gradient-to-r from-blue-900 to-blue-500 w-24 rounded-full"></div>
+          </div>
         </div>
       </section>
 
@@ -407,7 +394,7 @@ export default function Home() {
       <section className="py-20 bg-white relative overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center gap-12">
-            <motion.div 
+            <motion.div
               className="md:w-1/2"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -420,7 +407,7 @@ export default function Home() {
               <p className="text-lg text-slate-600 mb-8">
                 Acesse o UniGo de qualquer dispositivo. Nossa plataforma é totalmente responsiva e funciona perfeitamente em smartphones, tablets e computadores.
               </p>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                 {[
                   { title: "Notificações em tempo real", description: "Receba alertas sobre suas caronas" },
@@ -428,8 +415,8 @@ export default function Home() {
                   { title: "Compartilhamento de localização", description: "Acompanhe o trajeto em tempo real" },
                   { title: "Avaliações e feedback", description: "Sistema de reputação para mais segurança" }
                 ].map((feature, index) => (
-                  <motion.div 
-                    key={index} 
+                  <motion.div
+                    key={index}
                     className="p-4"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -441,7 +428,7 @@ export default function Home() {
                   </motion.div>
                 ))}
               </div>
-              
+
               <motion.button
                 className="btn-primary"
                 onClick={() => router.push('/register')}
@@ -451,8 +438,8 @@ export default function Home() {
                 Começar a Usar
               </motion.button>
             </motion.div>
-            
-            <motion.div 
+
+            <motion.div
               className="md:w-1/2 flex justify-center"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -477,7 +464,7 @@ export default function Home() {
                         ))}
                       </div>
                     </div>
-                    
+
                     <div className="bg-blue-50 rounded-lg p-3 mb-3">
                       <div className="text-sm font-medium mb-2">Carona Atual</div>
                       <div className="bg-white p-2 rounded-md shadow-sm">
@@ -488,7 +475,7 @@ export default function Home() {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="flex justify-between">
                       <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center">
                         <FaMapMarkedAlt className="text-blue-900" />
@@ -511,65 +498,200 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-900 to-blue-700 text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-            <defs>
-              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1"/>
-              </pattern>
-            </defs>
-            <path d="M0,0 L100%,100%" stroke="white" strokeWidth="0.5" strokeOpacity="0.2" />
-            <path d="M100%,0 L0,100%" stroke="white" strokeWidth="0.5" strokeOpacity="0.2" />
-          </svg>
-        </div>
-        
-        <div className="container mx-auto px-4 text-center relative z-10">
+      {/* Depoimentos Section */}
+      <section className="py-20 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+        <div className="container mx-auto px-6 max-w-6xl relative z-10">
           <motion.h2
-            className="text-3xl md:text-4xl font-bold mb-8"
+            className="text-3xl md:text-4xl font-bold text-center mb-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            Pronto para começar?
+            O que dizem nossos usuários
           </motion.h2>
           <motion.p
-            className="text-lg md:text-xl text-blue-100 mb-8 max-w-2xl mx-auto"
+            className="text-slate-600 text-center max-w-2xl mx-auto mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            Junte-se à comunidade UniGo e comece a compartilhar suas viagens hoje mesmo!
+            Centenas de alunos da UniFio já estão aproveitando as vantagens do UniGo
           </motion.p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Ana Silva",
+                curso: "Medicina - 3º ano",
+                texto: "O UniGo mudou minha rotina! Economizo cerca de R$250 por mês, além de conhecer outros alunos de diferentes cursos. A segurança de viajar apenas com estudantes verificados é o melhor benefício.",
+                avatar: "A",
+                rating: 5
+              },
+              {
+                name: "Pedro Santos",
+                curso: "Engenharia Civil - 4º ano",
+                texto: "Ótima iniciativa! Consigo dividir as despesas da viagem e ainda contribuo com o meio ambiente. O app é intuitivo e sempre encontro opções de carona para os horários que preciso.",
+                avatar: "P",
+                rating: 5
+              },
+              {
+                name: "Maria Oliveira",
+                curso: "Direito - 2º ano",
+                texto: "Me sinto muito mais segura viajando com outros alunos da UniFio. O sistema de avaliação dos motoristas garante qualidade nas viagens. Recomendo para todos os estudantes!",
+                avatar: "M",
+                rating: 4
+              }
+            ].map((depoimento, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.2,
+                  type: "spring",
+                  stiffness: 100
+                }}
+                viewport={{ once: true }}
+                whileHover={{
+                  y: -10,
+                  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)"
+                }}
+                className="testimonial-card relative overflow-hidden"
+              >
+                <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-900 to-blue-700" />
+                <div className="p-8">
+                  <div className="flex items-center mb-6">
+                    <div className="avatar-container mr-4">
+                      <div className="avatar-circle">
+                        {depoimento.avatar}
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-lg">{depoimento.name}</h3>
+                      <p className="text-slate-600 text-sm">{depoimento.curso}</p>
+                      <div className="flex mt-1">
+                        {[...Array(5)].map((_, i) => (
+                          <span key={i} className={`text-lg ${i < depoimento.rating ? 'text-yellow-500' : 'text-gray-300'}`}>★</span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-slate-700 italic mb-4">"{depoimento.texto}"</p>
+                  <div className="text-blue-800 text-sm font-medium">Usuário verificado UniFio</div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          <motion.div
+            className="mt-12 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <button className="btn-secondary">Ver mais depoimentos</button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-br from-blue-900 to-blue-800 text-white relative overflow-hidden">
+        <div className="absolute inset-0 wave-pattern opacity-10" />
+        <div className="container mx-auto px-6 max-w-6xl text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="max-w-3xl mx-auto"
           >
+            <div className="mb-8 flex justify-center">
+              <motion.div
+                className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center"
+                whileHover={{ scale: 1.1 }}
+                transition={{ type: "spring", stiffness: 200 }}
+              >
+                <FaUsers className="text-3xl text-blue-900" />
+              </motion.div>
+            </div>
+            <h2 className="text-4xl font-bold mb-6">Pronto para começar?</h2>
+            <p className="text-xl mb-8 text-blue-100">
+              Junte-se a centenas de estudantes da UniFio que já estão economizando tempo e dinheiro com o UniGo
+            </p>
             <motion.button
-              className="bg-white text-blue-900 px-6 py-3 rounded-lg font-semibold shadow-lg flex items-center justify-center gap-2"
-              onClick={() => router.push('/register')}
+              className="btn-primary bg-white text-blue-900 hover:bg-blue-50 mx-auto"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               Criar Conta Agora
             </motion.button>
-            <motion.button
-              className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2"
-              onClick={() => router.push('/login')}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Já tenho uma conta
-            </motion.button>
           </motion.div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-slate-900 text-white py-12">
+        <div className="container mx-auto px-6 max-w-6xl">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <div className="flex items-center mb-4">
+                <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center mr-2">
+                  <FaCar className="text-blue-900 text-xl" />
+                </div>
+                <span className="font-bold text-xl">UniGo</span>
+              </div>
+              <p className="text-slate-400 mb-4">
+                Conectando estudantes universitários através de caronas seguras e econômicas.
+              </p>
+              <div className="flex space-x-4">
+                <a href="#" className="text-white hover:text-blue-400 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                  </svg>
+                </a>
+                <a href="#" className="text-white hover:text-blue-400 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div>
+              <h3 className="font-semibold text-lg mb-4">Links Rápidos</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-slate-400 hover:text-white transition-colors">Início</a></li>
+                <li><a href="#beneficios" className="text-slate-400 hover:text-white transition-colors">Benefícios</a></li>
+                <li><a href="#como-funciona" className="text-slate-400 hover:text-white transition-colors">Como Funciona</a></li>
+                <li><a href="#" className="text-slate-400 hover:text-white transition-colors">Depoimentos</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold text-lg mb-4">Contato</h3>
+              <ul className="space-y-2 text-slate-400">
+                <li className="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> contato@unigo.com</li>
+                <li className="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg> (14) 99123-4567</li>
+                <li className="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg> Campus UniFio, Ourinhos - SP</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold text-lg mb-4">Baixe o App</h3>
+              <p className="text-slate-400 mb-4">Disponível em breve para iOS e Android.</p>
+              <div className="flex space-x-2">
+                <a href="#" className="border border-white rounded px-4 py-2 flex items-center text-sm hover:bg-white hover:text-blue-900 transition-colors">
+                  <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor"><path d="M17.707 9.293l-5-5a.999.999 0 10-1.414 1.414L14.586 9H10.998A7 7 0 104 16a1 1 0 102 0 5 5 0 114.998-5H14.586l-3.293 3.293a.999.999 0 101.414 1.414l5-5a.999.999 0 000-1.414z" /></svg>
+                  Download App
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-slate-700 mt-12 pt-8 text-center text-slate-400 text-sm">
+            &copy; {new Date().getFullYear()} UniGo. Todos os direitos reservados.
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
